@@ -1,0 +1,52 @@
+version: '3.8'
+
+services: 
+  api_1_1:
+    container_name: nginx-tutorials-api-1-1
+    build:
+      context: api
+      dockerfile: Dockerfile
+      args:
+        MODEL_ID: 1
+    ports:
+      - '30001:30000'
+
+  api_1_2:
+    container_name: nginx-tutorials-api-1-2
+    build:
+      context: api
+      dockerfile: Dockerfile
+      args:
+        MODEL_ID: 2
+    ports:
+      - '30003:30000'
+
+  api_2:
+    container_name: nginx-tutorials-api-2
+    build:
+      context: api
+      dockerfile: Dockerfile
+      args:
+        MODEL_ID: 2
+    ports:
+      - '30002:30000'
+
+
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - "85:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/.htpasswd:/etc/nginx/.htpasswd
+    depends_on:
+      - api_1_1
+      - api_1_2
+      - api_2
+
+volumes:
+  mlflow_db_data:
+  mlflow_data:    
+
