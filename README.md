@@ -1,6 +1,6 @@
 # How-to Guide
 
-## Authentication for MLFlow
+
 1. Install the `htpasswd` utility
     ```shell
     sudo apt-get install apache2-utils
